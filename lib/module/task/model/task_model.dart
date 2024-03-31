@@ -19,4 +19,13 @@ class TaskModel {
         title: map['title'],
         description: map['description']);
   }
+
+  YamlMap toYaml() {
+    final data = YamlMap();
+    data['id'] = id;
+    data['taskStatus'] = taskStatus;
+    data['title'] = title;
+    data['description'] = description;
+    return data;
+  }
 }

@@ -48,7 +48,7 @@ class AddTask extends StatelessWidget {
                 controller: value.taskDescriptionController),
             const Spacer(),
             AppElevatedButton(
-              onPressed: () {},
+              onPressed: () => value.addTask(),
               buttonName: 'Add Task',
             ),
             const SizedBox(height: 10.0)

@@ -24,4 +24,17 @@ class TaskStatus<T> {
         .toList();
     return taskModel;
   }
+
+  Future postTask(
+      int id, int taskStatusId, String title, String description) async {
+    YamlMap yaml = (await _parseYaml('app_static.yaml') as YamlMap);
+    final data = {
+      'id': (yaml['tasks'] as List).length,
+      'taskStatus': 2,
+      'title': 'sample',
+      'description': 'A sample Description'
+    };
+
+    return (yaml['tasks'] as List).add(data);
+  }
 }
