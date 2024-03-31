@@ -26,4 +26,9 @@ class TaskViewModel extends ChangeNotifier {
     _taskStatus = parsedModel;
     notifyListeners();
   }
+
+  void changeStatus(int? value) {
+    selectedProgress = value;
+    notifyListeners();
+  }
 }

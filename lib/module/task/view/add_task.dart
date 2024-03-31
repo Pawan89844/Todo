@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo/module/task/view%20model/task_view_model.dart';
+import 'package:todo/widgets/buttons/app_dropdown_button.dart';
 import 'package:todo/widgets/buttons/app_elevated_button.dart';
 import 'package:todo/widgets/input/app_input_field.dart';
 import 'package:todo/widgets/text/app_text.dart';
@@ -11,7 +12,8 @@ class AddTask extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(elevation: 0.0),
+      appBar: AppBar(
+          elevation: 0.0, centerTitle: true, title: const AppText('Add Task')),
       body: ChangeNotifierProvider.value(
         value: TaskViewModel()..getStatus(),
         child: Consumer<TaskViewModel>(
@@ -26,32 +28,14 @@ class AddTask extends StatelessWidget {
                       controller: value.taskTitleController,
                       textInputAction: TextInputAction.next,
                       keyboardType: TextInputType.text),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      height: 45.0,
-                      padding: const EdgeInsets.only(top: 10.0, left: 8.0),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black),
-                          borderRadius: BorderRadius.circular(8.0)),
-                      child: DropdownButton(
-                        hint: const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 5.0),
-                          child: AppText('Task Status'),
-                        ),
-                        isDense: true,
-                        isExpanded: true,
-                        value: value.selectedProgress,
-                        icon: Container(),
-                        borderRadius: BorderRadius.circular(8.0),
-                        underline: Container(),
-                        items: value.taskStatus
-                            .map((task) => DropdownMenuItem(
-                                value: task.id, child: AppText(task.status)))
-                            .toList(),
-                        onChanged: (value) {},
-                      ),
-                    ),
+                  AppDropDown(
+                    hintText: 'Task Status',
+                    value: value.selectedProgress,
+                    items: value.taskStatus
+                        .map((task) => DropdownMenuItem(
+                            value: task.id, child: AppText(task.status)))
+                        .toList(),
+                    onChanged: (selVal) => value.changeStatus(selVal),
                   ),
                   AppInputField(
                       labelText: 'Description',
