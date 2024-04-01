@@ -1,0 +1,25 @@
+progress_status:
+  - id: 0
+    status: Todo
+  - id: 1
+    status: In Progress
+  - id: 2
+    status: Completed
+
+tasks:
+  - id: 0
+    taskStatus: 1
+    title: Need to purchase grocery
+    description: A demo description for the grocery item
+  - id: 1
+    taskStatus: 1
+    title: Need to purchase Kettle
+    description: A demo description for the Kettle
+  - id: 2
+    taskStatus: 1
+    title: Need to purchase Medecines
+    description: A demo description for the Medicines
+  - id: 3
+    taskStatus: 1
+    title: Need to purchase Tv
+    description: A demo description for the TV
