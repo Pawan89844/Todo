@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo/module/onboarding/view/onboarding_view.dart';
 import 'package:todo/module/task/view/add_task.dart';
 
 class Todo extends StatelessWidget {
@@ -12,7 +13,7 @@ class Todo extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: AddTask(),
+      home: OnBoardingView(),
     );
   }
 }
