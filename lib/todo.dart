@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:todo/module/home/app_navbar.dart';
-import 'package:todo/module/task/view/add_task.dart';
-import 'package:todo/module/task/view/task_view.dart';
 
 class Todo extends StatelessWidget {
   const Todo({super.key});
