@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todo/module/onboarding/view/onboarding_view.dart';
 import 'package:todo/module/task/view/add_task.dart';
+import 'package:todo/module/task/view/task_view.dart';
 
 class Todo extends StatelessWidget {
   const Todo({super.key});
