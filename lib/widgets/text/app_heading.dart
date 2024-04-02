@@ -13,6 +13,7 @@ class AppHeading extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       data,
+      textAlign: TextAlign.center,
       style: TextStyle(color: color, fontWeight: fontWeight, fontSize: 22.0),
     );
   }
