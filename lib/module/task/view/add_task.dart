@@ -8,10 +8,20 @@ import 'package:todo/widgets/text/app_text.dart';
 
 class AddTask extends StatelessWidget {
   const AddTask({super.key});
-  static MaterialPageRoute page = MaterialPageRoute(
+  //TODO 1 key and name with variable approach.
+  // static MaterialPage page() => MaterialPage(
+  //     name: '/add-task',
+  //     key: const ValueKey('/add-task'),
+  //     child: ChangeNotifierProvider(
+  //         create: (context) => TaskViewModel()..getStatus(),
+  //         child: const AddTask()));
+  static MaterialPageRoute page() {
+    return MaterialPageRoute(
       builder: (context) => ChangeNotifierProvider(
           create: (context) => TaskViewModel()..getStatus(),
-          child: const AddTask()));
+          child: const AddTask()),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
