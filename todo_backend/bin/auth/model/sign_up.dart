@@ -1,12 +1,12 @@
 class SignUp {
-  final int? id;
-  final String fullname;
-  final String email;
-  final String password;
+  int? id;
+  String fullname;
+  String email;
+  String password;
 
   SignUp(
-      {this.id,
-      required this.fullname,
-      required this.email,
-      required this.password});
+      {this.id = 1,
+      this.fullname = 'Pawan Kumar',
+      this.email = 'pk89844@gmail.com',
+      this.password = 'India@Pawan'});
 }

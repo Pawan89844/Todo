@@ -5,6 +5,6 @@ import '../apis/apis.dart';
 class AppRoutes {
   static final Apis _api = Apis();
   static final router = Router()
-    ..post('/login', _api.initRoute)
-    ..get('/echo/<message>', _api.echoHandler);
+    ..post('/signup', _api.initRoute)
+    ..get('/login', _api.echoHandler);
 }

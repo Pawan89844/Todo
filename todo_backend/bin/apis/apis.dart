@@ -6,23 +6,23 @@ import 'package:shelf_router/shelf_router.dart';
 import '../auth/auth.dart';
 
 class Apis extends Auth {
+  final Map<String, String> _header = {'content-type': 'application/json'};
   // AUTHENTICATION API
-  initRoute(Request req) async {
+  Future<Response> initRoute(Request req) async {
     try {
-      final body = await req.readAsString();
-      final loginData = jsonDecode(body);
-      final username = loginData['username'] as String;
-      final password = loginData['password'] as String;
-      final isAuthenticated = await authenticate(req.headers);
+      final bool isAuthenticated = await signUpUser();
       if (isAuthenticated) {
-        return Response.ok(JsonEncoder.withIndent('  ')
-            .convert({'message': 'Login successful'}));
+        return Response.ok(
+            JsonEncoder.withIndent('  ')
+                .convert({'message': 'Login successful'}),
+            headers: _header);
       } else {
         return Response.unauthorized('Invalid username or password');
       }
     } catch (e) {
       print('Error: ${e.toString()}');
     }
+    return Response.badRequest();
   }
 
   Response echoHandler(Request request) {
