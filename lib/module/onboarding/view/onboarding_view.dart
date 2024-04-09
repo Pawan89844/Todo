@@ -7,8 +7,11 @@ class OnBoardingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(elevation: 0.0),
       body: SafeArea(
           child: PageView.builder(
+              controller: OnBoardingModel.controller,
+              physics: const NeverScrollableScrollPhysics(),
               itemCount: OnBoardingModel.onBoardingPages.length,
               itemBuilder: (context, i) =>
                   OnBoardingModel.onBoardingPages[i].page)),
