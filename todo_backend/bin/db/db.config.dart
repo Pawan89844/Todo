@@ -1,7 +1,7 @@
 import 'package:mysql_client/mysql_client.dart';
 
 class DBConfig {
-  final String _host = '127.0.0.1';
+  final String _host = 'localhost';
   final int _port = 3306;
   final String _username = 'root';
   final String _password = '9810253997Pa';
@@ -17,7 +17,7 @@ class DBConfig {
         userName: _username,
         password: _password,
         secure: false,
-        databaseName: 'users');
+        databaseName: 'todo_app_db');
     return connection;
   }
 }
