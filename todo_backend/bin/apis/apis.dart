@@ -1,32 +1,48 @@
 import 'dart:convert';
 
 import 'package:shelf/shelf.dart';
-import 'package:shelf_router/shelf_router.dart';
 
-import '../auth/auth.dart';
+import '../module/auth/auth.dart';
+import 'api_imp.dart';
 
 class Apis extends Auth {
+  final Map<String, String> _header = {'content-type': 'application/json'};
   // AUTHENTICATION API
-  initRoute(Request req) async {
+  Future<Response> signUp(Request req) async {
     try {
-      final body = await req.readAsString();
-      final loginData = jsonDecode(body);
-      final username = loginData['username'] as String;
-      final password = loginData['password'] as String;
-      final isAuthenticated = await authenticate(req.headers);
-      if (isAuthenticated) {
-        return Response.ok(JsonEncoder.withIndent('  ')
-            .convert({'message': 'Login successful'}));
-      } else {
-        return Response.unauthorized('Invalid username or password');
-      }
+      return APIImp.signUp(_header);
     } catch (e) {
       print('Error: ${e.toString()}');
     }
+    return Response.badRequest();
   }
 
-  Response echoHandler(Request request) {
-    final message = request.params['message'];
-    return Response.ok('$message\n');
+  Future<Response> login(Request req) async {
+    try {
+      return APIImp.signIn(_header);
+    } catch (e) {
+      print('Error: ${e.toString()}');
+    }
+    return Response.badRequest();
+  }
+
+  Future<Response> getTasks(Request req) async {
+    try {
+      return APIImp.tasks(_header);
+    } catch (e) {
+      print('Error: ${e.toString()}');
+    }
+    return Response.badRequest();
+  }
+
+  Future<Response> addTask(Request req) async {
+    try {
+      final body = await req.readAsString();
+      final data = jsonDecode(body) as Map<String, dynamic>;
+      return APIImp.addTask(_header, data);
+    } catch (e) {
+      print('Error: ${e.toString()}');
+    }
+    return Response.badRequest();
   }
 }
