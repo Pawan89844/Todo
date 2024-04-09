@@ -37,7 +37,8 @@ class TaskView extends StatelessWidget {
             title: const AppText('Tasks', fontWeight: FontWeight.bold),
             centerTitle: true),
         floatingActionButton: FloatingActionButton(
-          onPressed: () => Navigator.push(context, AddTask.page),
+          onPressed: () =>
+              Navigator.push(context, AddTask.page() as Route<Object?>),
           shape: const CircleBorder(),
           backgroundColor: Colors.blue,
           child: const Icon(CupertinoIcons.add, color: Colors.white),
