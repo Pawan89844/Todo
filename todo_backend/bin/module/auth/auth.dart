@@ -8,10 +8,11 @@ class Auth {
   final DBConfig _config = DBConfig();
   final BigInt _num = BigInt.one;
 
-  User? _traverseUserDataFromDB(MySQLConnection conn, IResultSet query) {
+  Future<User?> _traverseUserDataFromDB(
+      MySQLConnection conn, IResultSet query) async {
     for (var row in query.rows) {
       User user = User.fromDB(row.assoc());
-      conn.close();
+      await conn.close();
       return user;
     }
     return null;
@@ -34,7 +35,7 @@ class Auth {
     if (conn.connected) {
       var query = await conn.execute("SELECT * FROM users where userid = $id");
       print('Query: ${query.affectedRows}');
-      _traverseUserDataFromDB(conn, query);
+      return await _traverseUserDataFromDB(conn, query);
     }
     return null;
   }

@@ -30,11 +30,13 @@ class APIImp {
   }
 
   static Response _onSuccessFetchTasks(
-      AddTaskModel task, Map<String, String> header) {
-    List<Map<String, dynamic>> tasks = task.toUser();
+      List<AddTaskModel> task, Map<String, String> header) {
+    // List<Map<String, dynamic>> tasks = task[1].toUser();
     return Response.ok(
-        JsonEncoder.withIndent('  ')
-            .convert({'message': 'success', 'tasks': tasks}),
+        JsonEncoder.withIndent('  ').convert({
+          'message': 'success',
+          'tasks': task.map((e) => e.toUser()).toList()
+        }),
         headers: header);
   }
 
@@ -59,12 +61,21 @@ class APIImp {
   }
 
   static Future<Response> tasks(Map<String, String> header) async {
-    AddTaskModel? taskModel = await _tasks.fetchTasksFromDB();
+    List<AddTaskModel>? taskModel = await _tasks.fetchTasksFromDB();
     if (taskModel != null) {
-      print('Tasks Model: ${taskModel.description}');
       return _onSuccessFetchTasks(taskModel, header);
     } else {
       return _notFound(header, 'Oops! no tasks found in your account');
+    }
+  }
+
+  static Future<Response> addTask(
+      Map<String, String> header, Map<String, dynamic> body) async {
+    List<AddTaskModel>? taskModel = await _tasks.addTaskToDB(body);
+    if (taskModel != null) {
+      return _onSuccessFetchTasks(taskModel, header);
+    } else {
+      return _notFound(header, 'Something went wrong');
     }
   }
 }

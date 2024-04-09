@@ -1,14 +1,23 @@
 class AddTaskModel {
-  final int id;
+  final int? id;
   final int taskStatus;
   final String title;
   final String description;
 
   AddTaskModel(
-      {required this.id,
+      {this.id,
       required this.taskStatus,
       required this.title,
       required this.description});
+
+  factory AddTaskModel.toDB(Map<String, dynamic> db) {
+    int tasksStatus = int.parse(db['taskStatus'].toString());
+    AddTaskModel task = AddTaskModel(
+        taskStatus: tasksStatus,
+        title: db['title'],
+        description: db['description']);
+    return task;
+  }
 
   factory AddTaskModel.fromDB(Map<String, dynamic> db) {
     int taskId = int.parse(db['taskId']);
@@ -20,14 +29,12 @@ class AddTaskModel {
         description: db['description']);
   }
 
-  List<Map<String, dynamic>> toUser() {
+  Map<String, dynamic> toUser() {
     final data = <String, dynamic>{};
-    final tasks = <Map<String, dynamic>>[];
     data['taskId'] = id;
     data['taskStatus'] = taskStatus;
     data['title'] = title;
     data['description'] = description;
-    tasks.add(data);
-    return tasks;
+    return data;
   }
 }
