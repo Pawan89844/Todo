@@ -4,9 +4,20 @@ import 'package:shelf/shelf.dart';
 
 import '../module/auth/auth.dart';
 import '../module/auth/model/user.dart';
+import '../module/tasks/model/add_task_model.dart';
+import '../module/tasks/tasks.dart';
 
 class APIImp {
   static final Auth _auth = Auth();
+  static final Tasks _tasks = Tasks();
+
+  static Response _notFound(Map<String, String> header, String response) {
+    return Response.notFound(
+        JsonEncoder.withIndent('  ')
+            .convert({'message': 'error', 'response': response}),
+        headers: header);
+  }
+
   static Response _onSuccess(User user, Map<String, String> header) {
     Map<String, dynamic> responseUser = {
       'name': user.name,
@@ -15,6 +26,15 @@ class APIImp {
     return Response.ok(
         JsonEncoder.withIndent('  ')
             .convert({'message': 'Login successful', 'user': responseUser}),
+        headers: header);
+  }
+
+  static Response _onSuccessFetchTasks(
+      AddTaskModel task, Map<String, String> header) {
+    List<Map<String, dynamic>> tasks = task.toUser();
+    return Response.ok(
+        JsonEncoder.withIndent('  ')
+            .convert({'message': 'success', 'tasks': tasks}),
         headers: header);
   }
 
@@ -35,6 +55,16 @@ class APIImp {
           headers: header);
     } else {
       return Response.unauthorized('Invalid username or password');
+    }
+  }
+
+  static Future<Response> tasks(Map<String, String> header) async {
+    AddTaskModel? taskModel = await _tasks.fetchTasksFromDB();
+    if (taskModel != null) {
+      print('Tasks Model: ${taskModel.description}');
+      return _onSuccessFetchTasks(taskModel, header);
+    } else {
+      return _notFound(header, 'Oops! no tasks found in your account');
     }
   }
 }

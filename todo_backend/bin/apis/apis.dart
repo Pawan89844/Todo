@@ -23,4 +23,13 @@ class Apis extends Auth {
     }
     return Response.badRequest();
   }
+
+  Future<Response> getTasks(Request req) async {
+    try {
+      return APIImp.tasks(_header);
+    } catch (e) {
+      print('Error: ${e.toString()}');
+    }
+    return Response.badRequest();
+  }
 }
