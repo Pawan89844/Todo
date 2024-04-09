@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:mysql_client/mysql_client.dart';
 
 import '../../db/db.config.dart';
@@ -9,6 +7,16 @@ import 'model/user.dart';
 class Auth {
   final DBConfig _config = DBConfig();
   final BigInt _num = BigInt.one;
+
+  Future<User?> _traverseUserDataFromDB(
+      MySQLConnection conn, IResultSet query) async {
+    for (var row in query.rows) {
+      User user = User.fromDB(row.assoc());
+      await conn.close();
+      return user;
+    }
+    return null;
+  }
 
   Future<bool> _signUpQuery(MySQLConnection conn) async {
     if (conn.connected) {
@@ -24,17 +32,12 @@ class Auth {
   }
 
   Future<User?> _signInQuery(MySQLConnection conn, int id) async {
-    User? user;
     if (conn.connected) {
       var query = await conn.execute("SELECT * FROM users where userid = $id");
       print('Query: ${query.affectedRows}');
-      for (var row in query.rows) {
-        user = User.fromDB(row.assoc());
-        conn.close();
-        return user;
-      }
+      return await _traverseUserDataFromDB(conn, query);
     }
-    return user;
+    return null;
   }
 
   Future<bool> signUpUser() async {
