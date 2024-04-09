@@ -2,8 +2,9 @@ import 'dart:convert';
 
 import 'package:mysql_client/mysql_client.dart';
 
-import '../db/db.config.dart';
+import '../../db/db.config.dart';
 import 'model/sign_up.dart';
+import 'model/user.dart';
 
 class Auth {
   final DBConfig _config = DBConfig();
@@ -22,18 +23,18 @@ class Auth {
     return false;
   }
 
-  Future<bool> _signInQuery(MySQLConnection conn, int id) async {
+  Future<User?> _signInQuery(MySQLConnection conn, int id) async {
+    User? user;
     if (conn.connected) {
-      final conId = {"id": id};
-      IResultSet query =
-          await conn.execute("SELECT * FROM users WHERE userid=:id", conId);
+      var query = await conn.execute("SELECT * FROM users where userid = $id");
       print('Query: ${query.affectedRows}');
-      if (query.affectedRows >= _num) {
-        print('Query Success: ${query.rowsStream.map((event) => event)}');
-        return true;
+      for (var row in query.rows) {
+        user = User.fromDB(row.assoc());
+        conn.close();
+        return user;
       }
     }
-    return false;
+    return user;
   }
 
   Future<bool> signUpUser() async {
@@ -43,10 +44,10 @@ class Auth {
     return await _signUpQuery(conn);
   }
 
-  Future<bool> signInUser() async {
+  Future<User?> signInUser(int id) async {
     final conn = await _config.openDB();
     await conn.connect();
     print('Status: ${conn.connected}');
-    return await _signInQuery(conn, 1);
+    return await _signInQuery(conn, id);
   }
 }
