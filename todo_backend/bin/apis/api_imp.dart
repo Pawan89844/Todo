@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:shelf/shelf.dart';
 
 import '../module/auth/auth.dart';
+import '../module/auth/model/sign_up.dart';
 import '../module/auth/model/user.dart';
 import '../module/tasks/model/add_task_model.dart';
 import '../module/tasks/tasks.dart';
@@ -40,8 +41,9 @@ class APIImp {
         headers: header);
   }
 
-  static Future<Response> signIn(Map<String, String> header) async {
-    final User? user = await _auth.signInUser(1);
+  static Future<Response> signIn(
+      Map<String, String> header, Map<String, dynamic> body) async {
+    final User? user = await _auth.signInUser(body);
     if (user != null) {
       return _onSuccess(user, header);
     } else {
@@ -49,11 +51,14 @@ class APIImp {
     }
   }
 
-  static Future<Response> signUp(Map<String, String> header) async {
-    final bool isAuthenticated = await _auth.signUpUser();
-    if (isAuthenticated) {
+  static Future<Response> signUp(
+      Map<String, String> header, Map<String, dynamic> body) async {
+    SignUpModel? user = await _auth.signUpUser(body);
+    var userList = {'fullname': user?.fullname, 'email': user?.email};
+    if (user != null) {
       return Response.ok(
-          JsonEncoder.withIndent('  ').convert({'message': 'Login successful'}),
+          JsonEncoder.withIndent('  ')
+              .convert({'message': 'Signup successful', 'user': userList}),
           headers: header);
     } else {
       return Response.unauthorized('Invalid username or password');

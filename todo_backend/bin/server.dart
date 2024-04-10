@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart';
+import 'module/auth/token/auth_token.dart';
 import 'routers/routes.dart';
 
 // Configure routes.
