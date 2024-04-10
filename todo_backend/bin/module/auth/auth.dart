@@ -1,10 +1,11 @@
 import 'package:mysql_client/mysql_client.dart';
-
 import '../../db/db.config.dart';
 import 'model/sign_up.dart';
 import 'model/user.dart';
+import '../../constants/sql_queries.dart';
+import 'token/auth_token.dart';
 
-class Auth {
+class Auth with AuthToken {
   final DBConfig _config = DBConfig();
   final BigInt _num = BigInt.one;
 
@@ -18,39 +19,43 @@ class Auth {
     return null;
   }
 
-  Future<bool> _signUpQuery(MySQLConnection conn) async {
-    if (conn.connected) {
-      SignUp user = SignUp();
+  Future<SignUpModel?> _signUpQuery(
+      MySQLConnection conn, Map<String, dynamic> body) async {
+    SignUpModel? user = SignUpModel.fromUser(body);
+    if (!conn.connected) {
+      return null;
+    } else {
       IResultSet query = await conn.execute(
-          "INSERT into users (userid, email, fullname, password) VALUES (${user.id}, '${user.email}', '${user.fullname}', '${user.password}')");
+          "${SQLQueries.INSERT_INTO_USER}(${user.id}, '${user.email}', '${user.fullname}', '${user.password}')");
       print('Query: ${query.affectedRows}');
-      if (query.affectedRows >= _num) {
-        return true;
-      }
+      // generateJWTToken(1);
+      return query.affectedRows >= _num ? user : null;
     }
-    return false;
   }
 
-  Future<User?> _signInQuery(MySQLConnection conn, int id) async {
+  /// [_signInQuery] function makes a query to database conditionally with email and password.
+  Future<User?> _signInQuery(
+      MySQLConnection conn, Map<String, dynamic> body) async {
     if (conn.connected) {
-      var query = await conn.execute("SELECT * FROM users where userid = $id");
+      var query = await conn.execute(
+          "${SQLQueries.SELECT_FROM_USER} where ${SQLQueries.checkEmailPass(body)}");
       print('Query: ${query.affectedRows}');
       return await _traverseUserDataFromDB(conn, query);
     }
     return null;
   }
 
-  Future<bool> signUpUser() async {
+  Future<SignUpModel?> signUpUser(Map<String, dynamic> body) async {
     final conn = await _config.openDB();
     await conn.connect();
     print('Status: ${conn.connected}');
-    return await _signUpQuery(conn);
+    return await _signUpQuery(conn, body);
   }
 
-  Future<User?> signInUser(int id) async {
+  Future<User?> signInUser(Map<String, dynamic> body) async {
     final conn = await _config.openDB();
     await conn.connect();
     print('Status: ${conn.connected}');
-    return await _signInQuery(conn, id);
+    return await _signInQuery(conn, body);
   }
 }
