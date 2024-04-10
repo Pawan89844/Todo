@@ -11,6 +11,7 @@ class OnBoardingView1 extends StatelessWidget {
   Widget build(BuildContext context) {
     return OnBoardingComponents(
       heading: 'Welcome to Your Productivity Partner!',
+      imagePath: 'assets/images/welcome_screen_placeholder.png',
       onPressed: () => OnBoardingModel.controller
           .nextPage(duration: const Duration(seconds: 1), curve: Curves.easeIn),
       bodyText:
@@ -21,21 +22,26 @@ class OnBoardingView1 extends StatelessWidget {
 }
 
 class OnBoardingComponents extends StatelessWidget {
-  final String heading, bodyText, buttonName;
+  final String heading, bodyText, buttonName, imagePath;
   final void Function()? onPressed;
   const OnBoardingComponents(
       {super.key,
       required this.heading,
       required this.bodyText,
       required this.buttonName,
-      required this.onPressed});
+      required this.onPressed,
+      required this.imagePath});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        AppHeading(
-          heading,
+        AppHeading(heading),
+        const SizedBox(height: 10.0),
+        Container(
+          alignment: Alignment.center,
+          height: MediaQuery.of(context).size.height * .6,
+          child: Image.asset(imagePath),
         ),
         const Spacer(),
         AppText(

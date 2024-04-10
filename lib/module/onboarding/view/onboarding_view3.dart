@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo/module/home/app_navbar.dart';
 import 'package:todo/module/onboarding/view/onboarding_view1.dart';
 
 class OnBoardingView3 extends StatelessWidget {
@@ -8,10 +9,11 @@ class OnBoardingView3 extends StatelessWidget {
   Widget build(BuildContext context) {
     return OnBoardingComponents(
       heading: 'Prioritize and Organize',
+      imagePath: 'assets/images/priortize_placeholder.gif',
       bodyText:
           'Drag and drop tasks to rearrange your list. Mark completed tasks to see your progress!',
       buttonName: 'Let\'s Do This!',
-      onPressed: () {},
+      onPressed: () => Navigator.pushReplacement(context, AppNavBar.page()),
     );
   }
 }

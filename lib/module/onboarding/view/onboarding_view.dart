@@ -1,8 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:todo/module/onboarding/model/onboarding_model.dart';
 
-class OnBoardingView extends StatelessWidget {
+class OnBoardingView extends StatefulWidget {
   const OnBoardingView({super.key});
+
+  @override
+  State<OnBoardingView> createState() => _OnBoardingViewState();
+}
+
+class _OnBoardingViewState extends State<OnBoardingView> {
+  @override
+  void dispose() {
+    super.dispose();
+    OnBoardingModel.controller.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
