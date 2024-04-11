@@ -70,7 +70,7 @@ class _OnBoardingView3State extends State<OnBoardingView3>
   Widget build(BuildContext context) {
     return OnBoardingComponents(
       heading: 'Prioritize and Organize',
-      imagePath: 'assets/images/priortize_placeholder.gif',
+      imagePath: 'assets/images/priortize_placeholder.png',
       bodyText:
           'Drag and drop tasks to rearrange your list. Mark completed tasks to see your progress!',
       buttonName: 'Let\'s Do This!',

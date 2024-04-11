@@ -3,6 +3,7 @@ import 'package:todo/module/onboarding/model/onboarding_model.dart';
 import 'package:todo/widgets/buttons/app_elevated_button.dart';
 import 'package:todo/widgets/text/app_heading.dart';
 import 'package:todo/widgets/text/app_text.dart';
+import 'package:animator/animator.dart';
 
 class OnBoardingView1 extends StatelessWidget {
   const OnBoardingView1({super.key});
@@ -38,20 +39,40 @@ class OnBoardingComponents extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
     return Column(
       children: [
         AppHeading(heading),
         const SizedBox(height: 10.0),
-        Container(
-          alignment: Alignment.center,
-          height: MediaQuery.of(context).size.height * .6,
-          child: Image.asset(imagePath),
-        ),
+        if (isAnimatable) ...[
+          Container(
+            alignment: Alignment.center,
+            height: size.height * .6,
+            width: isAnimatable ? size.width * .9 : null,
+            child: Animator(
+                duration: const Duration(milliseconds: 2000),
+                cycles: 0,
+                curve: Curves.easeIn,
+                tween: Tween<double>(begin: 0.0, end: 10.0),
+                builder: (context, animatorState, __) {
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(height: animatorState.value * 5),
+                      Image.asset(imagePath)
+                    ],
+                  );
+                }),
+          ),
+        ] else ...[
+          Container(
+            alignment: Alignment.center,
+            height: MediaQuery.of(context).size.height * .6,
+            child: Image.asset(imagePath),
+          ),
+        ],
         const Spacer(),
-        AppText(
-          bodyText,
-          align: TextAlign.center,
-        ),
+        AppText(bodyText, align: TextAlign.center),
         const SizedBox(height: 10.0),
         if (isAnimatable)
           AnimatedBuilder(
