@@ -12,6 +12,7 @@ class _OnBoardingViewState extends State<OnBoardingView> {
   @override
   void dispose() {
     super.dispose();
+    print('Controller disposed');
     OnBoardingModel.controller.dispose();
   }
 

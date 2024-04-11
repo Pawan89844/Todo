@@ -24,13 +24,17 @@ class OnBoardingView1 extends StatelessWidget {
 class OnBoardingComponents extends StatelessWidget {
   final String heading, bodyText, buttonName, imagePath;
   final void Function()? onPressed;
+  final bool isAnimatable;
+  final Animation<double>? scale;
   const OnBoardingComponents(
       {super.key,
       required this.heading,
       required this.bodyText,
       required this.buttonName,
       required this.onPressed,
-      required this.imagePath});
+      required this.imagePath,
+      this.isAnimatable = false,
+      this.scale});
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +53,21 @@ class OnBoardingComponents extends StatelessWidget {
           align: TextAlign.center,
         ),
         const SizedBox(height: 10.0),
+        if (isAnimatable)
+          AnimatedBuilder(
+            animation: scale as Animation<double>,
+            builder: (c, child) => Transform.scale(
+              scale: scale?.value,
+              child: Container(
+                height: scale?.value,
+                width: scale?.value,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
         AppElevatedButton(
           buttonName: buttonName,
           onPressed: onPressed,
