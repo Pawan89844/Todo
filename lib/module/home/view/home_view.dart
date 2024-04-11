@@ -20,7 +20,7 @@ class HomeView extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.0),
             child: CircleAvatar(
-              backgroundColor: Colors.amber,
+              backgroundColor: Color(0xFFF14122B),
               // radius: 20.0,
               maxRadius: 15.0,
               child: Icon(Icons.person, color: Colors.white),
@@ -94,22 +94,43 @@ class HomeView extends StatelessWidget {
                 const Align(
                     alignment: Alignment.centerLeft,
                     child: AppHeading('Task Overview')),
-                Container(
-                  color: Colors.blue,
-                  height: 50.0,
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemCount: 4,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        alignment: Alignment.centerLeft,
-                        height: 20.0,
-                        width: 20.0,
-                      );
-                    },
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: SizedBox(
+                    height: 220.0,
+                    child: ListView.builder(
+                      itemCount: 3,
+                      itemExtent: 70.0,
+                      shrinkWrap: true,
+                      primary: false,
+                      physics: const BouncingScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return Card(
+                          color: Color(0xFFF1F2F7),
+                          child: ListTile(
+                            title: AppText('Task ${index + 1}'),
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 )
+                // Container(
+                //   color: Colors.blue,
+                //   height: 50.0,
+                //   child: ListView.builder(
+                //     shrinkWrap: true,
+                //     scrollDirection: Axis.horizontal,
+                //     itemCount: 4,
+                //     itemBuilder: (context, index) {
+                //       return Container(
+                //         alignment: Alignment.centerLeft,
+                //         height: 20.0,
+                //         width: 20.0,
+                //       );
+                //     },
+                //   ),
+                // )
               ],
             ),
           ],
