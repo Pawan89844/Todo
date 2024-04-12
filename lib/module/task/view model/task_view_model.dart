@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:todo/data/task_status_model.dart';
 import 'package:todo/module/task/model/task_model.dart';
+import 'package:todo/module/task/view%20model/task_details_view_model.dart';
 import 'package:todo/module/task/view%20model/task_operations.dart';
 import 'package:todo/presentation/task_status.dart';
 
-class TaskViewModel extends ChangeNotifier with TaskOperations {
+class TaskViewModel extends ChangeNotifier with TaskDetailsViewModel {
   // Controllers
   final TextEditingController taskTitleController = TextEditingController();
   final TextEditingController taskDescriptionController =
