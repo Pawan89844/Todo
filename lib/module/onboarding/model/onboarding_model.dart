@@ -6,6 +6,7 @@ import 'package:todo/module/onboarding/view/onboarding_view3.dart';
 class OnBoardingModel {
   final int pageId;
   final Widget page;
+  static PageController controller = PageController();
 
   OnBoardingModel(this.pageId, this.page);
 

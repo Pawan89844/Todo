@@ -1,10 +1,11 @@
-import 'dart:io';
-
 import 'package:flutter/services.dart';
 import 'package:todo/data/task_status_model.dart';
 import 'package:todo/module/task/model/task_model.dart';
 import 'package:yaml/yaml.dart';
 
+/// [TaskStatus] class contains static data such as button name and other static text.
+/// all of the content is stored in the app_static.yaml file in assets/yaml/.
+/// It also contain static task data to test out the application in debug mode.
 class TaskStatus<T> {
   Future<T> _parseYaml(String fileName) async {
     final file = await rootBundle.loadString('assets/yaml/$fileName');
