@@ -11,6 +11,9 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    var query = MediaQuery.of(context);
+    var kToolBar = AppBar();
+
     return Scaffold(
       drawer: const Drawer(),
       appBar: AppBar(
@@ -32,106 +35,98 @@ class HomeView extends StatelessWidget {
         padding: const EdgeInsets.all(20.0),
         child: Column(
           children: [
-            const Align(
-              alignment: Alignment.centerLeft,
+            Expanded(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  AppHeading('Hello Pawan!'),
-                  AppText('Welcome to your task manager')
+                  const Align(
+                    alignment: Alignment.centerLeft,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        AppHeading('Hello Pawan!'),
+                        AppText('Welcome to your task manager')
+                      ],
+                    ),
+                  ),
+                  Container(
+                    height: size.height * .24,
+                    alignment: Alignment.center,
+                    margin: const EdgeInsets.symmetric(vertical: 20.0),
+                    child: Card(
+                      color: const Color(0xFFF14122B),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const AppHeading('Today\'s progress\nsummary',
+                                      color: Colors.white,
+                                      textAlign: TextAlign.start),
+                                  AppText('1 of 5 completed',
+                                      color: Colors.grey.shade100)
+                                ],
+                              ),
+                              const Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  SizedBox(
+                                    height: 50.0,
+                                    width: 50.0,
+                                    child: CircularProgressIndicator(
+                                      value: .40,
+                                      strokeWidth: 12.0,
+                                      backgroundColor: Colors.white,
+                                      color: Colors.green,
+                                      strokeCap: StrokeCap.round,
+                                    ),
+                                  ),
+                                  AppText('40%', color: Colors.white)
+                                ],
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
-            Container(
-              height: size.height * .24,
-              alignment: Alignment.center,
-              margin: const EdgeInsets.symmetric(vertical: 20.0),
-              child: Card(
-                // color: const Color(0xFF537c78),
-                color: const Color(0xFFF14122B),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const AppHeading('Today\'s progress\nsummary',
-                                color: Colors.white,
-                                textAlign: TextAlign.start),
-                            AppText('1 of 5 completed',
-                                color: Colors.grey.shade100)
-                          ],
-                        ),
-                        const Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            SizedBox(
-                              height: 50.0,
-                              width: 50.0,
-                              child: CircularProgressIndicator(
-                                value: .40,
-                                strokeWidth: 12.0,
-                                backgroundColor: Colors.white,
-                                color: Colors.green,
-                                strokeCap: StrokeCap.round,
-                              ),
-                            ),
-                            AppText('40%', color: Colors.white)
-                          ],
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Align(
-                    alignment: Alignment.centerLeft,
-                    child: AppHeading('Task Overview')),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: SizedBox(
-                    height: 220.0,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Align(
+                      alignment: Alignment.centerLeft,
+                      child: AppHeading('Task Overview')),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
                     child: ListView.builder(
                       itemCount: 3,
                       itemExtent: 70.0,
                       shrinkWrap: true,
                       primary: false,
-                      physics: const BouncingScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
                         return Card(
-                          color: Color(0xFFF1F2F7),
+                          color: const Color(0xFFF1F2F7),
                           child: ListTile(
                             title: AppText('Task ${index + 1}'),
+                            subtitle: const Padding(
+                              padding: EdgeInsets.only(bottom: 7.0),
+                              child: AppText('Sample task'),
+                            ),
                           ),
                         );
                       },
                     ),
-                  ),
-                )
-                // Container(
-                //   color: Colors.blue,
-                //   height: 50.0,
-                //   child: ListView.builder(
-                //     shrinkWrap: true,
-                //     scrollDirection: Axis.horizontal,
-                //     itemCount: 4,
-                //     itemBuilder: (context, index) {
-                //       return Container(
-                //         alignment: Alignment.centerLeft,
-                //         height: 20.0,
-                //         width: 20.0,
-                //       );
-                //     },
-                //   ),
-                // )
-              ],
+                  )
+                ],
+              ),
             ),
           ],
         ),
