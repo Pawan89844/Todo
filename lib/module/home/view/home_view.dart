@@ -2,6 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:todo/style/theme/app_colors.dart';
 import 'package:todo/widgets/text/app_heading.dart';
 import 'package:todo/widgets/text/app_text.dart';
 
@@ -113,7 +114,7 @@ class HomeView extends StatelessWidget {
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
                         return Card(
-                          color: const Color(0xFFF1F2F7),
+                          color: AppColor.cardColor,
                           child: ListTile(
                             title: AppText('Task ${index + 1}'),
                             subtitle: const Padding(
