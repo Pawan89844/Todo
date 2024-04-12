@@ -11,7 +11,7 @@ class OnBoardingView1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return OnBoardingComponents(
-      heading: 'Welcome to Your Productivity Partner!',
+      heading: 'Welcome to Your Productivity\nPartner!',
       imagePath: 'assets/images/welcome_screen_placeholder.png',
       onPressed: () => OnBoardingModel.controller
           .nextPage(duration: const Duration(seconds: 1), curve: Curves.easeIn),
@@ -72,7 +72,9 @@ class OnBoardingComponents extends StatelessWidget {
           ),
         ],
         const Spacer(),
-        AppText(bodyText, align: TextAlign.center),
+        Container(
+            margin: const EdgeInsets.symmetric(horizontal: 14.0),
+            child: AppText(bodyText, align: TextAlign.center)),
         const SizedBox(height: 10.0),
         if (isAnimatable)
           AnimatedBuilder(
@@ -89,6 +91,7 @@ class OnBoardingComponents extends StatelessWidget {
               ),
             ),
           ),
+        const SizedBox(height: 5.0),
         AppElevatedButton(
           buttonName: buttonName,
           onPressed: onPressed,
