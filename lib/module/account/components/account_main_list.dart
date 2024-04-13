@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:todo/module/account/model/account_model.dart';
 import 'package:todo/module/account/view%20model/account_view_model.dart';
 import 'package:todo/style/theme/app_colors.dart';
 import 'package:todo/widgets/text/app_heading.dart';
@@ -53,22 +54,26 @@ class AccountMainList extends StatelessWidget {
             itemBuilder: (context, i) {
               var data = viewModel.account?.iconCard[i];
 
-              return Column(
-                children: [
-                  if (i == 3)
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 18.0),
-                      child: Divider(),
-                    ),
-                  _ProfileOptionsCard(
-                    icon: IconData(data?.iconCodePoint as int,
-                        fontFamily: viewModel.account?.iconFontFamily,
-                        fontPackage: viewModel.account?.iconFontPackage),
-                    tag: data?.tag as String,
-                    isLogout: data?.id == 4,
-                  )
-                ],
-              );
+              if (data == null) {
+                return Container();
+              } else {
+                return Column(
+                  children: [
+                    if (i == 3)
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 18.0),
+                        child: Divider(),
+                      ),
+                    _ProfileOptionsCard(
+                        icon: AccountModel.iconData(
+                            data.iconCodePoint,
+                            viewModel.account!.iconFontFamily,
+                            viewModel.account!.iconFontPackage),
+                        isLogout: data.id == 4,
+                        tag: data.tag)
+                  ],
+                );
+              }
             },
           ),
         ]

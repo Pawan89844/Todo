@@ -2,11 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:todo/module/account/model/account_model.dart';
 import 'package:todo/presentation/account_static.dart';
 
-class AccountViewModel extends ChangeNotifier {
+class AccountViewModel extends ChangeNotifier with AccountStatic {
   //OBJECTS
   AccountModel? account;
 
-  final AccountStatic _accounts = AccountStatic();
+  // final AccountStatic _accounts = AccountStatic();
   // LISTS
 
   // PRIMITIVE TYPES
@@ -14,7 +14,7 @@ class AccountViewModel extends ChangeNotifier {
   // METHODS AND FUNCTIONS
 
   void getAccountOptions() async {
-    AccountModel accmodel = await _accounts.parseAccount();
+    AccountModel accmodel = await parseAccount();
     account = accmodel;
     notifyListeners();
   }
