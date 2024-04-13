@@ -26,7 +26,7 @@ class _AppDropDownState<T> extends State<AppDropDown<T>> {
         height: 45.0,
         padding: const EdgeInsets.only(top: 10.0, left: 8.0),
         decoration: BoxDecoration(
-            border: Border.all(color: Colors.black),
+            border: Border.all(color: Colors.black12),
             borderRadius: BorderRadius.circular(8.0)),
         child: DropdownButton(
           hint: Padding(

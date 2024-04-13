@@ -9,6 +9,7 @@ class OnboardingView2 extends StatelessWidget {
   Widget build(BuildContext context) {
     return OnBoardingComponents(
       heading: 'Add Tasks Quickly',
+      imagePath: 'assets/images/add_task_placeholder.gif',
       bodyText:
           'Just tap the "+" button to add new tasks. Give them a clear title and set deadlines if needed.',
       buttonName: 'Next',
