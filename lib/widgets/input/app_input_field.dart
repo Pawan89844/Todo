@@ -9,6 +9,7 @@ class AppInputField extends StatelessWidget {
   final TextInputAction? textInputAction;
   final Widget? suffixIcon;
   final void Function(String value)? onSubmitted;
+  final bool obscureText;
   const AppInputField(
       {super.key,
       this.labelText,
@@ -20,7 +21,8 @@ class AppInputField extends StatelessWidget {
       this.textInputAction,
       this.hintText,
       this.suffixIcon,
-      this.onSubmitted});
+      this.onSubmitted,
+      this.obscureText = false});
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +38,7 @@ class AppInputField extends StatelessWidget {
         keyboardType: keyboardType,
         textInputAction: textInputAction,
         onSubmitted: onSubmitted,
+        obscureText: obscureText,
         decoration: InputDecoration(
             floatingLabelStyle: const TextStyle(color: Colors.blue),
             alignLabelWithHint: true,

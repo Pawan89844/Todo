@@ -69,7 +69,6 @@ class _OnBoardingViewState extends State<OnBoardingView>
     Timer(
       const Duration(milliseconds: 350),
       () {
-        print('Animation disposed');
         scaleController.dispose();
       },
     );
