@@ -1,0 +1,16 @@
+onboarding_content:
+  - id: 0
+    heading: Welcome to Your Productivity Partner!
+    imagePath: assets/images/welcome_screen_placeholder.png
+    bodyText: Take control of your day with our powerful yet simple-to-use to-do list app.
+    buttonName: Get Started
+  - id: 1
+    heading: Add Tasks Quickly
+    imagePath: assets/images/add_task_placeholder.gif
+    bodyText: Just tap the "+" button to add new tasks. Give them a clear title and set deadlines if needed.
+    buttonName: Next
+  - id: 2
+    heading: Prioritize and Organize
+    imagePath: assets/images/priortize_placeholder.png
+    bodyText: Drag and drop tasks to rearrange your list. Mark completed tasks to see your progress!
+    buttonName: Let's Do This!

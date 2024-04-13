@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:yaml/yaml.dart';
 
 class AccountModel {
@@ -18,6 +19,10 @@ class AccountModel {
         iconCard: (yaml['profile_options'] as List)
             .map((items) => IconCard.fromYaml(items))
             .toList());
+  }
+
+  static IconData iconData(int icon, String fontFamily, String fontPackage) {
+    return IconData(icon, fontFamily: fontFamily, fontPackage: fontPackage);
   }
 }
 
