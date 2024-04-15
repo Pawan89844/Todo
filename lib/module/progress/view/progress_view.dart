@@ -13,7 +13,8 @@ class ProgressView extends StatelessWidget {
       appBar: AppBar(
           elevation: 0.0,
           title: const AppHeading('Progress'),
-          centerTitle: true),
+          centerTitle: true,
+          scrolledUnderElevation: 0.0),
       body: ChangeNotifierProvider(
           create: (context) => ProgressViewModel()..getProgress(),
           child: const ProgressComponent()),
