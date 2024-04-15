@@ -1,0 +1,31 @@
+progress_days:
+  - id: 0
+    day: Sun
+  - id: 1
+    day: Mon
+  - id: 2
+    day: Tue
+  - id: 3
+    day: Wed
+  - id: 4
+    day: Thur
+  - id: 5
+    day: Fri
+  - id: 6
+    day: Sat
+
+progress_tasks:
+  - id: 0
+    amount: 0
+  - id: 1
+    amount: 10
+  - id: 2
+    amount: 20
+  - id: 3
+    amount: 30
+  - id: 4
+    amount: 40
+  - id: 5
+    amount: 50
+  
+    
