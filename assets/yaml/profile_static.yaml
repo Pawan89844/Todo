@@ -1,0 +1,19 @@
+iconFontFamily: CupertinoIcons
+iconFontPackage: cupertino_icons
+
+profile_options:
+  - id: 0
+    tag: Edit Profile
+    iconCodePoint: 0xf73a
+  - id: 1
+    tag: Notifications
+    iconCodePoint: 0xf3e1
+  - id: 2
+    tag: Tags
+    iconCodePoint: 0xf848
+  - id: 3
+    tag: Rate App
+    iconCodePoint: 0xf820
+  - id: 4
+    tag: Log Out
+    iconCodePoint: 0xf90e
