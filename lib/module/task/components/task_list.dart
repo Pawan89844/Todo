@@ -8,8 +8,22 @@ import 'package:todo/style/theme/app_colors.dart';
 import 'package:todo/widgets/text/app_heading.dart';
 import 'package:todo/widgets/text/app_text.dart';
 
-class TaskListComponent extends StatelessWidget {
+class TaskListComponent extends StatefulWidget {
   const TaskListComponent({super.key});
+
+  @override
+  State<TaskListComponent> createState() => _TaskListComponentState();
+}
+
+class _TaskListComponentState extends State<TaskListComponent>
+    with SingleTickerProviderStateMixin {
+  late TabController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TabController(length: 3, vsync: this);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +31,18 @@ class TaskListComponent extends StatelessWidget {
       appBar: AppBar(
           elevation: 0.0,
           title: const AppText('Tasks', fontWeight: FontWeight.bold),
-          centerTitle: true),
+          centerTitle: true,
+          bottom: TabBar(controller: _controller, tabs: const [
+            Tab(
+              child: AppText('Todo'),
+            ),
+            Tab(
+              child: AppText('In Progress'),
+            ),
+            Tab(
+              child: AppText('Completed'),
+            ),
+          ])),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.push(context, AddTask.page()),
         shape: const CircleBorder(),
@@ -29,21 +54,38 @@ class TaskListComponent extends StatelessWidget {
         if (value.tasks.isEmpty) {
           return const Center(child: CircularProgressIndicator());
         } else {
-          return ListView.builder(
-            primary: true,
-            physics: const BouncingScrollPhysics(),
-            shrinkWrap: true,
-            padding: const EdgeInsets.all(8.0),
-            itemCount: value.tasks.length,
-            itemBuilder: (context, i) {
-              return _TaskList(
-                  title: value.tasks[i].title,
-                  taskStatus:
-                      value.tasks[i].taskStatus == 1 ? 'In Progress' : 'Todo');
-            },
+          return TabBarView(
+            controller: _controller,
+            children: const [
+              _TasksList(),
+              _TasksList(),
+              _TasksList(),
+            ],
           );
         }
       }),
+    );
+  }
+}
+
+class _TasksList extends StatelessWidget {
+  const _TasksList();
+
+  @override
+  Widget build(BuildContext context) {
+    var value = Provider.of<TaskViewModel>(context);
+    return ListView.builder(
+      primary: true,
+      physics: const BouncingScrollPhysics(),
+      shrinkWrap: true,
+      padding: const EdgeInsets.all(8.0),
+      itemCount: value.tasks.length,
+      itemBuilder: (context, i) {
+        return _TaskList(
+            title: value.tasks[i].title,
+            taskStatus:
+                value.tasks[i].taskStatus == 1 ? 'In Progress' : 'Todo');
+      },
     );
   }
 }
