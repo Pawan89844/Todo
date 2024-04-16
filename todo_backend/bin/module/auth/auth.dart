@@ -3,19 +3,26 @@ import '../../db/db.config.dart';
 import 'model/sign_up.dart';
 import 'model/user.dart';
 import '../../constants/sql_queries.dart';
+import 'service/hash_password.dart';
 import 'token/auth_token.dart';
 
 class Auth with AuthToken {
   final DBConfig _config = DBConfig();
   final BigInt _num = BigInt.one;
+  final HashPassword _hashPassword = HashPassword();
 
   Future<User?> _traverseUserDataFromDB(
-      MySQLConnection conn, IResultSet query) async {
+      IResultSet query, String userPassword) async {
+    String password;
+    String newHashedPassword = _hashPassword.generateHashPassword(userPassword);
     for (var row in query.rows) {
-      User user = User.fromDB(row.assoc());
-      await conn.close();
-      return user;
+      password = row.assoc()['password'].toString();
+      if (password == newHashedPassword) {
+        User user = User.fromDB(row.assoc());
+        return user;
+      }
     }
+
     return null;
   }
 
@@ -28,7 +35,6 @@ class Auth with AuthToken {
       IResultSet query = await conn.execute(
           "${SQLQueries.INSERT_INTO_USER}(${user.id}, '${user.email}', '${user.fullname}', '${user.password}')");
       print('Query: ${query.affectedRows}');
-      // generateJWTToken(1);
       return query.affectedRows >= _num ? user : null;
     }
   }
@@ -38,9 +44,9 @@ class Auth with AuthToken {
       MySQLConnection conn, Map<String, dynamic> body) async {
     if (conn.connected) {
       var query = await conn.execute(
-          "${SQLQueries.SELECT_FROM_USER} where ${SQLQueries.checkEmailPass(body)}");
+          "${SQLQueries.SELECT_FROM_USER} where `email` = '${body['email']}'");
       print('Query: ${query.affectedRows}');
-      return await _traverseUserDataFromDB(conn, query);
+      return await _traverseUserDataFromDB(query, body['password']);
     }
     return null;
   }

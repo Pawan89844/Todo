@@ -1,3 +1,5 @@
+import '../service/hash_password.dart';
+
 class SignUpModel {
   int? id;
   String fullname;
@@ -11,9 +13,9 @@ class SignUpModel {
       required this.password});
 
   factory SignUpModel.fromUser(Map<String, dynamic> body) {
+    HashPassword hashPassword = HashPassword();
+    String password = hashPassword.generateHashPassword(body['password']);
     return SignUpModel(
-        fullname: body['fullname'],
-        email: body['email'],
-        password: body['password']);
+        fullname: body['fullname'], email: body['email'], password: password);
   }
 }

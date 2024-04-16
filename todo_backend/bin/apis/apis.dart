@@ -24,7 +24,7 @@ class Apis extends Auth {
     } catch (e) {
       print('Error: ${e.toString()}');
     }
-    return Response.badRequest();
+    return Response.badRequest(headers: _header);
   }
 
   /// login API FUNCTIONS : signIn -->> signInUser -->> _signInQuery -->> _traverseUserDataFromDB -->> returns User data.
@@ -45,7 +45,7 @@ class Apis extends Auth {
     } catch (e) {
       print('Error: ${e.toString()}');
     }
-    return Response.badRequest();
+    return Response.badRequest(headers: _header);
   }
 
   Future<Response> getTasks(Request req) async {
@@ -54,7 +54,7 @@ class Apis extends Auth {
     } catch (e) {
       print('Error: ${e.toString()}');
     }
-    return Response.badRequest();
+    return Response.badRequest(headers: _header);
   }
 
   Future<Response> addTask(Request req) async {
@@ -65,6 +65,6 @@ class Apis extends Auth {
     } catch (e) {
       print('Error: ${e.toString()}');
     }
-    return Response.badRequest();
+    return Response.badRequest(headers: _header);
   }
 }

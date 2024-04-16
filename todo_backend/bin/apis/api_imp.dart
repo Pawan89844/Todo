@@ -47,7 +47,8 @@ class APIImp {
     if (user != null) {
       return _onSuccess(user, header);
     } else {
-      return Response.unauthorized('Invalid username or password');
+      return Response.unauthorized('Invalid username or password',
+          headers: header);
     }
   }
 
@@ -61,7 +62,8 @@ class APIImp {
               .convert({'message': 'Signup successful', 'user': userList}),
           headers: header);
     } else {
-      return Response.unauthorized('Invalid username or password');
+      return Response.unauthorized('Invalid username or password',
+          headers: header);
     }
   }
 
