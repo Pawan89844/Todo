@@ -1,50 +1,34 @@
-import 'dart:ui';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
 class PieChart extends CustomPainter {
-  final double width;
-  final double height;
-  final List<PieChartData> data;
+  final double inProgressPercentage;
 
-  PieChart({required this.width, required this.height, required this.data});
+  PieChart({required this.inProgressPercentage});
   @override
   void paint(Canvas canvas, Size size) {
     // final center = Offset(width, 2.0);
-    final center = Offset(width / 2, height / 2);
-    final radius = math.min(width / 2, height / 2);
-    final paint = Paint();
-    paint.color = Colors.blue;
-    paint.style = PaintingStyle.fill;
-    canvas.drawCircle(center, radius, paint);
-    // double total = 0;
-    // for (var item in data) {
-    //   total += item.value;
-    // }
+    final center = Offset(size.width / 2, size.height / 2);
+    final radius = math.min(size.width / 2, size.height / 4);
+    Color inProgressColor = const Color(0xFF1F38AB);
+    Color unAssignedTasks = const Color(0xFF86C3C2);
 
-    // double startAngle = 270; // degrees - starting angle
+    double sweepAngle = 2 * pi * inProgressPercentage;
+    canvas.drawArc(Rect.fromCircle(center: center, radius: radius), -pi / 2,
+        sweepAngle, true, Paint()..color = inProgressColor);
 
-    // for (var item in data) {
-    //   double sweepAngle = (item.value / total) * 360; // degrees - sweep angle
-    //   final paint = Paint()
-    //     ..color = item.color
-    //     ..style = PaintingStyle.fill;
-    //   canvas.drawArc(Rect.fromCircle(center: center, radius: radius),
-    //       (startAngle), (sweepAngle), true, paint);
-    //   startAngle += sweepAngle;
-    // }
+    double remainingPercentage = 1 - inProgressPercentage;
+    double startAngle = 2 * pi * inProgressPercentage - pi / 2;
+    sweepAngle = 2 * pi * remainingPercentage;
+    canvas.drawArc(Rect.fromCircle(center: center, radius: radius), startAngle,
+        sweepAngle, true, Paint()..color = unAssignedTasks);
   }
 
   @override
   bool shouldRepaint(covariant PieChart oldDelegate) {
-    return data != oldDelegate.data;
+    return true;
+    // return data != oldDelegate.data;
   }
-}
-
-class PieChartData {
-  final double value;
-  final Color color;
-
-  PieChartData({required this.value, required this.color});
 }

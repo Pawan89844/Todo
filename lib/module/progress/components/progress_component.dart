@@ -9,6 +9,7 @@ import 'package:todo/widgets/text/app_text.dart';
 
 class ProgressComponent extends StatelessWidget {
   const ProgressComponent({super.key});
+  final double inProgressPercentage = 0.6;
 
   @override
   Widget build(BuildContext context) {
@@ -36,22 +37,90 @@ class ProgressComponent extends StatelessWidget {
                     alignment: Alignment.centerLeft,
                     margin: const EdgeInsets.symmetric(horizontal: 5.0),
                     child: const AppHeading('Tasks Overview')),
-                Container(
-                  height: 300.0,
-                  width: 300.0,
-                  child: CustomPaint(
-                      painter: PieChart(width: 300.0, height: 300.0, data: [
-                    PieChartData(value: 30, color: Colors.blue),
-                    PieChartData(value: 50, color: Colors.orange),
-                    PieChartData(value: 20, color: Colors.green),
-                  ])),
-                )
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                        height: 250.0,
+                        width: 150.0,
+                        // color: Colors.blue,
+                        child: CustomPaint(
+                          painter: PieChart(
+                              inProgressPercentage: inProgressPercentage),
+                        )),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Row(
+                          children: [
+                            Column(
+                              children: [
+                                _PieChartIndicators(
+                                    statusColor: Color(0xFF1F38AB),
+                                    status: 'In-Progress'),
+                                _PieChartIndicators(
+                                    statusColor: Color(0xFF86C3C2),
+                                    status: 'Unassigned'),
+                              ],
+                            ),
+                            SizedBox(width: 20.0),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Column(
+                              children: [
+                                _PieChartIndicators(
+                                    statusColor: Colors.amber.shade500,
+                                    status:
+                                        '${(inProgressPercentage * 100).toStringAsFixed(1)} %'),
+                                _PieChartIndicators(
+                                    statusColor: AppColor.cardColor,
+                                    status:
+                                        '${(1 - inProgressPercentage) * 100} %'),
+                              ],
+                            ),
+                            const SizedBox(width: 20.0),
+                          ],
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Divider(),
+                ),
               ],
             ),
           ),
         );
       }
     });
+  }
+}
+
+class _PieChartIndicators extends StatelessWidget {
+  final Color statusColor;
+  final String status;
+  const _PieChartIndicators({required this.statusColor, required this.status});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        Container(
+          color: statusColor,
+          height: 20.0,
+          width: 20.0,
+          margin: const EdgeInsets.symmetric(vertical: 12.0),
+        ),
+        const SizedBox(width: 14.0),
+        AppText(status)
+      ],
+    );
   }
 }
 
