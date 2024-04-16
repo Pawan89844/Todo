@@ -46,9 +46,8 @@ class ProgressComponent extends StatelessWidget {
                         width: 150.0,
                         // color: Colors.blue,
                         child: CustomPaint(
-                          painter: PieChart(
-                              inProgressPercentage: inProgressPercentage),
-                        )),
+                            painter: PieChart(
+                                inProgressPercentage: inProgressPercentage))),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
