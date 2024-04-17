@@ -5,6 +5,7 @@ import 'package:shelf/shelf.dart';
 import '../module/auth/auth.dart';
 import '../module/auth/model/sign_up.dart';
 import '../module/auth/model/user.dart';
+import '../module/auth/token/auth_token.dart';
 import '../module/tasks/model/add_task_model.dart';
 import '../module/tasks/tasks.dart';
 
@@ -19,14 +20,18 @@ class APIImp {
         headers: header);
   }
 
-  static Response _onSuccess(User user, Map<String, String> header) {
+  static Response _onSuccess(
+      User user, Map<String, String> header, String token) {
     Map<String, dynamic> responseUser = {
       'name': user.name,
       'username': user.username
     };
     return Response.ok(
-        JsonEncoder.withIndent('  ')
-            .convert({'message': 'Login successful', 'user': responseUser}),
+        JsonEncoder.withIndent('  ').convert({
+          'message': 'Login successful',
+          'token': token,
+          'user': responseUser
+        }),
         headers: header);
   }
 
@@ -45,7 +50,8 @@ class APIImp {
       Map<String, String> header, Map<String, dynamic> body) async {
     final User? user = await _auth.signInUser(body);
     if (user != null) {
-      return _onSuccess(user, header);
+      String token = await AuthToken.generateJWT(user.id, user.name);
+      return _onSuccess(user, header, token);
     } else {
       return Response.unauthorized('Invalid username or password',
           headers: header);
@@ -57,9 +63,13 @@ class APIImp {
     SignUpModel? user = await _auth.signUpUser(body);
     var userList = {'fullname': user?.fullname, 'email': user?.email};
     if (user != null) {
+      String token = await AuthToken.generateJWT(user.id as int, user.fullname);
       return Response.ok(
-          JsonEncoder.withIndent('  ')
-              .convert({'message': 'Signup successful', 'user': userList}),
+          JsonEncoder.withIndent('  ').convert({
+            'message': 'Signup successful',
+            'token': token,
+            'user': userList
+          }),
           headers: header);
     } else {
       return Response.unauthorized('Invalid username or password',
@@ -70,7 +80,17 @@ class APIImp {
   static Future<Response> tasks(Map<String, String> header) async {
     List<AddTaskModel>? taskModel = await _tasks.fetchTasksFromDB();
     if (taskModel != null) {
-      return _onSuccessFetchTasks(taskModel, header);
+      String token = header['authorization']
+          .toString()
+          .split('Bearer')
+          .join('')
+          .toString();
+      bool isValidated = await AuthToken.verifyJWT(token, 'Honest');
+      if (isValidated) {
+        return _onSuccessFetchTasks(taskModel, header);
+      } else {
+        return Response.unauthorized('error: invalid token', headers: header);
+      }
     } else {
       return _notFound(header, 'Oops! no tasks found in your account');
     }

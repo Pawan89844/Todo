@@ -50,7 +50,11 @@ class Apis extends Auth {
 
   Future<Response> getTasks(Request req) async {
     try {
-      return APIImp.tasks(_header);
+      Map<String, String> header = {
+        'content-type': 'application/json',
+        'authorization': req.headers['authorization'].toString()
+      };
+      return APIImp.tasks(header);
     } catch (e) {
       print('Error: ${e.toString()}');
     }

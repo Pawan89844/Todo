@@ -35,7 +35,19 @@ class Auth with AuthToken {
       IResultSet query = await conn.execute(
           "${SQLQueries.INSERT_INTO_USER}(${user.id}, '${user.email}', '${user.fullname}', '${user.password}')");
       print('Query: ${query.affectedRows}');
-      return query.affectedRows >= _num ? user : null;
+      if (query.affectedRows >= _num) {
+        IResultSet fetchUserIdQuery = await conn.execute(
+            "${SQLQueries.SELECT_FROM_USER} WHERE `email` = '${user.email}'");
+        for (var userData in fetchUserIdQuery.rows) {
+          String? fromDBId = userData.assoc()['userid'];
+          int id = int.parse(fromDBId as String);
+          user.id = id;
+        }
+        return user;
+      } else {
+        return null;
+      }
+      // return query.affectedRows >= _num ? user : null;
     }
   }
 
