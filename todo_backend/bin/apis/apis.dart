@@ -65,7 +65,11 @@ class Apis extends Auth {
     try {
       final body = await req.readAsString();
       final data = jsonDecode(body) as Map<String, dynamic>;
-      return APIImp.addTask(_header, data);
+      Map<String, String> header = {
+        'content-type': 'application/json',
+        'authorization': req.headers['authorization'].toString()
+      };
+      return APIImp.addTask(header, data);
     } catch (e) {
       print('Error: ${e.toString()}');
     }
