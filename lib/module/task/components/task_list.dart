@@ -7,6 +7,7 @@ import 'package:todo/module/task/view/task_details_view.dart';
 import 'package:todo/style/theme/app_colors.dart';
 import 'package:todo/widgets/text/app_heading.dart';
 import 'package:todo/widgets/text/app_text.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 class TaskListComponent extends StatefulWidget {
   const TaskListComponent({super.key});
@@ -74,18 +75,24 @@ class _TasksList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var value = Provider.of<TaskViewModel>(context);
-    return ListView.builder(
-      primary: true,
-      physics: const BouncingScrollPhysics(),
-      shrinkWrap: true,
-      padding: const EdgeInsets.all(8.0),
-      itemCount: value.tasks.length,
-      itemBuilder: (context, i) {
-        return _TaskList(
-            title: value.tasks[i].title,
-            taskStatus:
-                value.tasks[i].taskStatus == 1 ? 'In Progress' : 'Todo');
-      },
+    return Animate(
+      effects: const [
+        FadeEffect(duration: Duration(seconds: 1), curve: Curves.easeInOut),
+        ShimmerEffect()
+      ],
+      child: ListView.builder(
+        primary: true,
+        physics: const BouncingScrollPhysics(),
+        shrinkWrap: true,
+        padding: const EdgeInsets.all(8.0),
+        itemCount: value.tasks.length,
+        itemBuilder: (context, i) {
+          return _TaskList(
+              title: value.tasks[i].title,
+              taskStatus:
+                  value.tasks[i].taskStatus == 1 ? 'In Progress' : 'Todo');
+        },
+      ),
     );
   }
 }
