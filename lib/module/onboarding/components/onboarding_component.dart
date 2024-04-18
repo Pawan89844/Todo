@@ -1,26 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:todo/module/onboarding/model/onboarding_model.dart';
 import 'package:todo/widgets/buttons/app_elevated_button.dart';
 import 'package:todo/widgets/text/app_heading.dart';
 import 'package:todo/widgets/text/app_text.dart';
 import 'package:animator/animator.dart';
-
-class OnBoardingView1 extends StatelessWidget {
-  const OnBoardingView1({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return OnBoardingComponents(
-      heading: 'Welcome to Your Productivity Partner!',
-      imagePath: 'assets/images/welcome_screen_placeholder.png',
-      onPressed: () => OnBoardingModel.controller
-          .nextPage(duration: const Duration(seconds: 1), curve: Curves.easeIn),
-      bodyText:
-          'Take control of your day with our powerful yet\nsimple-to-use to-do list app.',
-      buttonName: 'Get Started',
-    );
-  }
-}
 
 class OnBoardingComponents extends StatelessWidget {
   final String heading, bodyText, buttonName, imagePath;
@@ -42,7 +24,7 @@ class OnBoardingComponents extends StatelessWidget {
     var size = MediaQuery.of(context).size;
     return Column(
       children: [
-        AppHeading(heading),
+        Container(alignment: Alignment.center, child: AppHeading(heading)),
         const SizedBox(height: 10.0),
         if (isAnimatable) ...[
           Container(
@@ -72,7 +54,9 @@ class OnBoardingComponents extends StatelessWidget {
           ),
         ],
         const Spacer(),
-        AppText(bodyText, align: TextAlign.center),
+        Container(
+            margin: const EdgeInsets.symmetric(horizontal: 14.0),
+            child: AppText(bodyText, align: TextAlign.center)),
         const SizedBox(height: 10.0),
         if (isAnimatable)
           AnimatedBuilder(
@@ -89,6 +73,7 @@ class OnBoardingComponents extends StatelessWidget {
               ),
             ),
           ),
+        const SizedBox(height: 5.0),
         AppElevatedButton(
           buttonName: buttonName,
           onPressed: onPressed,
