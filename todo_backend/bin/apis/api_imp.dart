@@ -89,7 +89,12 @@ class APIImp {
       if (isValidated) {
         return _onSuccessFetchTasks(taskModel, header);
       } else {
-        return Response.unauthorized('error: invalid token', headers: header);
+        // 'error: invalid token'
+        return Response.unauthorized(
+            JsonEncoder.withIndent('  ').convert({
+              'message': 'invalid token unauthorized',
+            }),
+            headers: header);
       }
     } else {
       return _notFound(header, 'Oops! no tasks found in your account');
@@ -100,7 +105,23 @@ class APIImp {
       Map<String, String> header, Map<String, dynamic> body) async {
     List<AddTaskModel>? taskModel = await _tasks.addTaskToDB(body);
     if (taskModel != null) {
-      return _onSuccessFetchTasks(taskModel, header);
+      String token = header['authorization']
+          .toString()
+          .split('Bearer')
+          .join('')
+          .toString();
+      bool isValidated = await AuthToken.verifyJWT(token, 'Honest');
+      // print('Is Validated: $isValidated');
+      // print('Token: $token');
+      // return _onSuccessFetchTasks(taskModel, header);
+      if (isValidated) {
+        return _onSuccessFetchTasks(taskModel, header);
+      } else {
+        return Response.unauthorized(
+            JsonEncoder.withIndent('  ')
+                .convert({'message': 'invalid token unauthorized'}),
+            headers: header);
+      }
     } else {
       return _notFound(header, 'Something went wrong');
     }

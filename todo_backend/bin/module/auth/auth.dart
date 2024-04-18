@@ -6,7 +6,7 @@ import '../../constants/sql_queries.dart';
 import 'service/hash_password.dart';
 import 'token/auth_token.dart';
 
-class Auth with AuthToken {
+class Auth {
   final DBConfig _config = DBConfig();
   final BigInt _num = BigInt.one;
   final HashPassword _hashPassword = HashPassword();
