@@ -11,8 +11,8 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
     var query = MediaQuery.of(context);
+    // var query = MediaQuery.of(context);
     var kToolBar = AppBar();
 
     return Scaffold(
@@ -33,10 +33,10 @@ class HomeView extends StatelessWidget {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0),
         child: Column(
           children: [
-            Expanded(
+            SizedBox.square(
               child: Column(
                 children: [
                   const Align(
@@ -50,7 +50,7 @@ class HomeView extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    height: size.height * .24,
+                    height: query.size.height * .24,
                     alignment: Alignment.center,
                     margin: const EdgeInsets.symmetric(vertical: 20.0),
                     child: Card(
@@ -97,7 +97,7 @@ class HomeView extends StatelessWidget {
                 ],
               ),
             ),
-            Expanded(
+            SizedBox.square(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -107,7 +107,12 @@ class HomeView extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0),
                     child: ListView.builder(
-                      itemCount: 3,
+                      itemCount: ((query.size.height -
+                                  kToolBar.preferredSize.height -
+                                  query.viewInsets.top) *
+                              .6 /
+                              100.0)
+                          .truncate(),
                       itemExtent: 70.0,
                       shrinkWrap: true,
                       primary: false,
